@@ -6,8 +6,9 @@ use App\Models\TblEmpleados;
 
 class EmpleadosRepository
 {
-    public function registrarEmpelados(array $empleado) {
+        public function registrarEmpleado(array $empleado, string $conn) {
         $registro = new TblEmpleados();
+        $registro->setConnection($conn);
 
         $registro->id_position         = $empleado['id_position'];
         $registro->id_type_employee    = $empleado['id_type_employee'];  
@@ -18,9 +19,34 @@ class EmpleadosRepository
         $registro->name                = $empleado['name'];
         $registro->paternal            = $empleado['paternal'];
         $registro->maternal            = $empleado['maternal'];
+        $registro->birthdate           = $empleado['birthdate'];
         $registro->photo               = $empleado['photo'];
         $registro->busines_mail        = $empleado['busines_mail'];
         $registro->active              = 1;
+        
+        $registro->save();
+
+        return $registro->id_employee;
+    }
+
+    public function registrarEmpleadoIntranet(array $empleado, string $conn) {
+
+    $registro = new TblEmpleados();
+        $registro->setConnection($conn);
+
+        $registro->id_position      = $empleado['id_position'];
+        $registro->id_companies     = $empleado['id_company']; 
+        $registro->Code             = $empleado['slug'];       
+        $registro->Name             = $empleado['name'];       
+        $registro->Paternal         = $empleado['paternal'];   
+        $registro->Maternal         = $empleado['maternal'];   
+        $registro->busines_mail     = $empleado['busines_mail'];
+        $registro->birthdate        = $empleado['birthdate'];
+        $registro->photo            = $empleado['photo'];
+        $registro->active           = 1;
+        $registro->id_departaments  = 1; 
+        $registro->id_motivos_baja  = 1; 
+        
         $registro->save();
 
         return $registro->id_employee;
@@ -38,6 +64,7 @@ class EmpleadosRepository
             'name',
             'paternal',
             'maternal',
+            'birthdate',
             'photo',
             'busines_mail',
             'active',
@@ -58,11 +85,11 @@ class EmpleadosRepository
             'name',
             'paternal',
             'maternal',
+            'birthdate',
             'photo',
             'busines_mail',
             'active'
         ) 
-
         ->where('id_employee', $pkEmpleado);
 
         return $query->get();
@@ -79,6 +106,7 @@ class EmpleadosRepository
         $actualizar->name             = $empleado['name'];
         $actualizar->paternal         = $empleado['paternal'];
         $actualizar->maternal         = $empleado['maternal'];
+        $actualizar->birthdate        = $empleado['birthdate'];
         $actualizar->photo            = $empleado['photo'];
         $actualizar->busines_mail     = $empleado['busines_mail'];
 

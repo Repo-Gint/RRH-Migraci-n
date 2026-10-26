@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
@@ -23,17 +22,16 @@ class NuevoEmpleadoMail extends Mailable
 
     public function build()
     {
-        // Toma el remitente desde las variables globales configuradas por tu .env
         return $this->from(config('mail.from.address'), config('mail.from.name'))
-                    ->subject('Nuevo empleado - Sistema de Recursos Humanos')
+                    ->subject('Bienvenido - Credenciales de Acceso')
                     ->view('Emails.nuevo_empleado')
                     ->with([
-                        'Names'     => $this->requestData['Names'],
-                        'Paternal'  => $this->requestData['Paternal'],
-                        'Maternal'  => $this->requestData['Maternal'],
-                        'Birthdate' => $this->requestData['Birthdate'],
-                        'User'      => $this->username,
-                        'Password'  => $this->password,
+                        'name'      => $this->requestData['name'],
+                        'paternal'  => $this->requestData['paternal'],
+                        'maternal'  => $this->requestData['maternal'],
+                        'birthdate' => $this->requestData['birthdate'],
+                        'User'      => $this->username, 
+                        'Password'  => $this->password, 
                     ]);
     }
 }

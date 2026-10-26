@@ -25,6 +25,7 @@ class TblEmpleados extends Model
         'maternal',
         'photo',
         'busines_mail',
+        'birthdate',
         'active'  
     ];
 

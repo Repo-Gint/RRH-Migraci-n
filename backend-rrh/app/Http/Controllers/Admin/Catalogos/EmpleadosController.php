@@ -20,7 +20,7 @@ class EmpleadosController extends Controller
 
     public function registrarEmpleado(Request $request) {
         try {
-            $this->empleadosService->registrarEmpleado($request->all());
+            return $this->empleadosService->registrarEmpleado($request->all());
         } catch (\Throwable $error) {
             Log::alert('*********************************************');
             Log::alert('Error al registrar el Empleado');
@@ -28,7 +28,7 @@ class EmpleadosController extends Controller
 
             return response()->json(
                 [
-                    'error'   => $error,
+                    'error'   => $error->getMessage(),
                     'mensaje' => 'Ocurrio un error interno'
                 ], 500
             );
@@ -45,7 +45,7 @@ class EmpleadosController extends Controller
 
             return response()->json(
                 [
-                    'error'   => $error,
+                    'error'   => $error->getMessage(),
                     'mensaje' => 'Ocurrio un error interno'
                 ], 500
             );
@@ -62,9 +62,9 @@ class EmpleadosController extends Controller
 
             return response()->json(
                 [
-                    'error'   => $error,
+                    'error'   => $error->getMessage(),
                     'mensaje' => 'Ocurrio un error interno'
-                ]
+                ], 500
             );
         }
     }
@@ -74,14 +74,14 @@ class EmpleadosController extends Controller
             return $this->empleadosService->actualizarEmpleado($request->all());
         } catch (\Throwable $error) {
             Log::alert('*********************************************');
-            Log::alert('Error al obtener información de detalle del Empleado');
+            Log::alert('Error al actualizar la información del Empleado');
             Log::alert($error);
 
             return response()->json(
                 [
-                    'error'   => $error,
+                    'error'   => $error->getMessage(),
                     'mensaje' => 'Ocurrio un error interno'
-                ]
+                ], 500
             );
         }
     }

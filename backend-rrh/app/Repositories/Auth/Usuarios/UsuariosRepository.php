@@ -6,8 +6,6 @@ use App\Models\TblSessions;
 use App\Models\TblUsuarios;
 use Illuminate\Support\Facades\DB;
 
-use function Laravel\Prompts\password;
-
 class UsuariosRepository
 {
     public function validarUsuarioExistente(string $correo) {
@@ -26,6 +24,21 @@ class UsuariosRepository
         $registro->password     = $usuario['password'];
         $registro->active       = 1;
         $registro->save(); 
+
+        return $registro->id_users;
+    }
+
+    public function crearUsuarioIntranet(array $datos, string $conn) {
+        $registro = new TblUsuarios();
+        $registro->setConnection($conn);
+        
+        $registro->id_rol_users = 1; // Ajusta el rol por defecto que necesites
+        $registro->id_employee  = $datos['id_employee'];
+        $registro->busines_mail = $datos['busines_mail'];
+        $registro->password     = bcrypt($datos['password']); // Encriptamos
+        $registro->active       = 1;
+        
+        $registro->save();
 
         return $registro->id_users;
     }

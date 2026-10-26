@@ -55,7 +55,7 @@ class EmpresasRepository
             'state',
             'municipality',
             'tows',
-            'active',
+            'active'
         )
 
         ->where('id_employee', $pkEmpresa);

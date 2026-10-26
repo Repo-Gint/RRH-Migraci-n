@@ -1,0 +1,24 @@
+/* home.css */
+#layoutSidenav {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    background-color: #f4f6f9; /* Color claro para el resto de la pantalla */
+    overflow: hidden;
+}
+
+#layoutSidenav_content {
+    flex-grow: 1;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 2rem;
+    padding-top: 5rem; /* Espacio para que el botón de menú no tape tu contenido */
+}
+
+.contenido {
+    background-color: #ffffff;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    min-height: calc(100vh - 9rem);
+}

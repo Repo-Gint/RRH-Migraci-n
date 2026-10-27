@@ -10,7 +10,7 @@ class TblSessions extends Model
     use HasFactory;
     public $timestamps = false;
     public $primaryKey = 'id_sessions';
-    public $table      = 'tbl_session';
+    public $table      = 'tbl_sessions';
 
     protected $fillable = [
         'id_session',

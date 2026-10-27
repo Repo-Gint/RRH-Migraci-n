@@ -9,7 +9,6 @@ class EmpresasRepository
     public function registrarEmpresas(array $empresa) {
         $registro = new TblEmpresas();
 
-        $registro->id_companies  = $empresa['id_companies'];
         $registro->id_country    = $empresa['id_country'];
         $registro->Acronym       = $empresa['Acronym'];
         $registro->name          = $empresa['name'];

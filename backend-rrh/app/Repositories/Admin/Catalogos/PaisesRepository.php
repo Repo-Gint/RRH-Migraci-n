@@ -3,52 +3,71 @@
 namespace App\Repositories\Admin\Catalogos;
 
 use App\Models\TblPaises;
+use Illuminate\Support\Facades\Storage;
 
 class PaisesRepository
 {
-    public function registrarPaises(array $paises) {
+    public function registrarPaises(array $paises, $file = null) {
         $registro = new TblPaises();
 
-        $registro->id_countries   = $paises['id_countries'];
-        $registro->country        = $paises['country'];
-        $registro->flag           = $paises['flag']; 
-        $registro->slug           = $paises['slug'];
-        $registro->active         = 1;
+        $registro->country = $paises['country'];
+        $registro->slug    = $paises['slug'];
+        
+        if ($file) {
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs('banderas', $filename, 'public');
+            $registro->flag = $path;
+        }
+
+        $registro->active = 1;
         $registro->save();
 
         return $registro->id_countries;
     }
 
-
     public function obtenerListaPaises() {
-        $query = TblPaises::select(
+        return TblPaises::select(
+            'id_countries',
             'country',
-            'flag',
             'slug',
+            'flag',
             'active'
-        );
-
-        return $query->get();
+        )->get();
     }
 
     public function obtenerDetallePaises(int $pkPaises) {
-        $query = TblPaises::select(
-            'country',
-            'flag',
-            'slug',
-            'active'
-        )
+    return TblPaises::select(
+        'id_countries',
+        'country',
+        'slug',
+        'flag',
+        'active'
+    )
+    ->where([
+        ['id_countries', $pkPaises],
+        ['active', 1]
+    ])
+    ->first(); // <-- Cambiado de get() a first() para traer un objeto directo
+} 
 
-        ->where('id_countries', $pkPaises);
-        return $query->get();
-    } 
-
-    public function actualizarPaises(int $id, array $paises) {
+    public function actualizarPaises(int $id, array $paises, $file = null) {
         $actualizar = TblPaises::findOrFail($id);
 
-        $actualizar->country  = $paises['country'];
-        $actualizar->flag     = $paises['flag'];
-        $actualizar->slug     = $paises['slug'];
-        $actualizar->sae();
+        $actualizar->country = $paises['country'];
+        $actualizar->slug    = $paises['slug'];
+
+        if ($file) {
+            if ($actualizar->flag && Storage::disk('public')->exists($actualizar->flag)) {
+                Storage::disk('public')->delete($actualizar->flag);
+            }
+
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs('banderas', $filename, 'public');
+            $actualizar->flag = $path;
+        }
+
+        $actualizar->save();
+
+        return $actualizar;
     }
 }

@@ -3,10 +3,11 @@
 namespace App\Repositories\Admin\Catalogos;
 
 use App\Models\TblEmpleados;
+use Illuminate\Support\Facades\DB;
 
 class EmpleadosRepository
 {
-        public function registrarEmpleado(array $empleado, string $conn) {
+        public function registrarEmpleado(array $empleado, string $conn, array $files) {
         $registro = new TblEmpleados();
         $registro->setConnection($conn);
 
@@ -20,11 +21,23 @@ class EmpleadosRepository
         $registro->paternal            = $empleado['paternal'];
         $registro->maternal            = $empleado['maternal'];
         $registro->birthdate           = $empleado['birthdate'];
-        $registro->photo               = $empleado['photo'];
         $registro->busines_mail        = $empleado['busines_mail'];
         $registro->active              = 1;
         
         $registro->save();
+
+                if ($files) {
+            foreach ($files as $file) {
+                $filename = time() . '_' . $file->getClientOriginalName();
+
+                $path = $file->storeAs('fotos', $filename, 'public');
+
+                DB::table('tbl_photo_evidence')->insert([
+                    'id_employee'   => $registro->id_employee,
+                    'url_evidence_image' => $path
+                ]);
+            }
+        }
 
         return $registro->id_employee;
     }

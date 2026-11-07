@@ -2,7 +2,7 @@
 
 namespace App\Services\Admin\Catalogos;
 
-class CountriesService
+class PoisicionesService
 {
     //
 }

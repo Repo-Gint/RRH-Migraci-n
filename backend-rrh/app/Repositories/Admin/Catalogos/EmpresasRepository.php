@@ -3,41 +3,49 @@
 namespace App\Repositories\Admin\Catalogos;
 
 use App\Models\TblEmpresas;
+use Illuminate\Support\Facades\DB;
 
 class EmpresasRepository
 {
-    public function registrarEmpresas(array $empresa) {
+    public function registrarEmpresas(array $empresas) {
         $registro = new TblEmpresas();
 
-        $registro->id_country    = $empresa['id_country'];
-        $registro->Acronym       = $empresa['Acronym'];
-        $registro->name          = $empresa['name'];
-        $registro->address       = $empresa['address'];
-        $registro->phone         = $empresa['phone'];
-        $registro->slug          = $empresa['slug'];
-        $registro->state         = $empresa['state'];
-        $registro->municipality  = $empresa['municipality'];
-        $registro->tows          = $empresa['tows'];
-        $registro->active        = 1;
+        $registro->id_country   = $empresas['id_country'];
+        $registro->acronym      = $empresas['acronym'];
+        $registro->name         = $empresas['name'];
+        $registro->address      = $empresas['address'];
+        $registro->phone        = $empresas['phone'];
+        $registro->state        = $empresas['state'];
+        $registro->municipality = $empresas['municipality'] ?? '';
+        $registro->towns        = $empresas['towns'] ?? '';
+        $registro->active       = 1;
+
         $registro->save();
 
-        return $registro->id_employee;
+        return $registro->id_companies;
     }
 
     public function obtenerListaEmpresas() {
         $query = TblEmpresas::select(
-            'id_companies', 
-            'id_country',   
-            'Acronym',  
-            'name', 
-            'address',  
-            'phone',    
-            'slug', 
-            'state',    
-            'municipality', 
-            'tows', 
-            'active'  
-        );
+            'tbl_companies.id_companies', 
+            'tbl_companies.id_country',   
+            'tbl_countries.country', 
+            'tbl_companies.acronym',  
+            'tbl_companies.name', 
+            'tbl_companies.address',  
+            'tbl_companies.phone',    
+            'tbl_companies.state',    
+            'tbl_companies.municipality', 
+            'tbl_companies.towns', 
+            'tbl_companies.active',
+            DB::raw("
+                CASE
+                    WHEN tbl_companies.active = 1 THEN 'Activo'
+                    ELSE 'Inactivo'
+                END as estado
+            ") 
+        )
+        ->join('tbl_countries', 'tbl_countries.id_country', '=', 'tbl_companies.id_country'); 
 
         return $query->get();
     }
@@ -46,35 +54,42 @@ class EmpresasRepository
         $query = TblEmpresas::select(
             'id_companies',
             'id_country',
-            'Acronym',
+            'acronym',
             'name',
             'address',
             'phone',
-            'slug',
             'state',
             'municipality',
-            'tows',
+            'towns',
             'active'
         )
+        ->where('id_companies', $pkEmpresa); 
 
-        ->where('id_employee', $pkEmpresa);
-        return $query->get();
+        return $query->first();
     }
 
-
-    public function actualizarEmpresa(int $id, array $empresa) {
+    public function actualizarEmpresa(int $id, array $empresas) {
         $actualizar = TblEmpresas::findOrFail($id);
-        $actualizar->id_companies  = $empresa['id_companies'];
-        $actualizar->id_country    = $empresa['id_country'];
-        $actualizar->Acronym       = $empresa['Acronym'];
-        $actualizar->name          = $empresa['name'];
-        $actualizar->address       = $empresa['address'];
-        $actualizar->phone         = $empresa['phone'];
-        $actualizar->slug          = $empresa['slug'];
-        $actualizar->state         = $empresa['state'];
-        $actualizar->municipality  = $empresa['municipality'];
-        $actualizar->tows          = $empresa['tows'];
+
+        $actualizar->id_country   = $empresas['id_country'];
+        $actualizar->acronym      = $empresas['acronym'];
+        $actualizar->name         = $empresas['name'];
+        $actualizar->address      = $empresas['address'];
+        $actualizar->phone        = $empresas['phone'];
+        $actualizar->state        = $empresas['state'];
+        $actualizar->municipality = $empresas['municipality'] ?? '';
+        $actualizar->towns        = $empresas['towns'] ?? '';
 
         $actualizar->save();
+
+        return $actualizar;
+    }
+
+    public function cambiarStatusEmpresas(int $pkEmpresas){
+        $empresas = TblEmpresas::findOrFail($pkEmpresas);
+        $empresas->active = $empresas->active ? 0 : 1;
+        $empresas->save();
+
+        return $empresas->active;
     }
 }

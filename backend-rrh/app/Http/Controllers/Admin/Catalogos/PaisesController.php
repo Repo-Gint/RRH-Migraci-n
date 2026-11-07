@@ -70,7 +70,8 @@ class PaisesController extends Controller
 
     public function actualizarPaises(Request $request) {
         try {
-            return $this->paisesService->actualizarPaises($request->all());
+            // CORRECCIÓN: Se envía el request y el archivo de la imagen al servicio
+            return $this->paisesService->actualizarPaises($request->all(), $request->file('flag'));
         } catch (\Throwable $error) {
             Log::alert('*********************************************');
             Log::alert('Error al obtener información de detalle del Pais');
@@ -78,10 +79,25 @@ class PaisesController extends Controller
 
             return response()->json(
                 [
-                    'error'   => $error,
+                    'error'   => $error->getMessage(),
                     'mensaje' => 'Ocurrio un error interno'
                 ], 500
             );
+        }
+    }
+
+    public function cambiarStatusPaises(int $pkPaises) {
+        try {
+            return $this->paisesService->cambiarStatusPaises($pkPaises);
+        } catch (\Throwable $error) {
+            Log::alert('*********************************************');
+            Log::alert('Error al cambiar Status del Pais');
+            Log::alert($error);
+
+            return response()->json([
+                'error'   => $error,
+                'mensaje' => 'Ocurrió un error interno'
+            ]);
         }
     }
 }

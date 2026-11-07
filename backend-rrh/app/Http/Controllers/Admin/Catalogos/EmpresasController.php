@@ -9,28 +9,26 @@ use Illuminate\Support\Facades\Log;
 
 class EmpresasController extends Controller
 {
-    protected EmpresasService  $empresasService;
+    protected EmpresasService $empresasService;
 
     public function __construct(
-        EmpresasService  $empresasService
+        EmpresasService $empresasService
     ) {
         $this->empresasService = $empresasService;  
     }
 
     public function registrarEmpresas(Request $request) {
         try {
-            $this->empresasService->registrarEmpresa($request->all());
+            return $this->empresasService->registrarEmpresa($request->all());
         } catch (\Throwable $error) {
             Log::alert('*********************************************');
             Log::alert('Error al registrar la Empresa');
             Log::alert($error);
 
-            return response()->json(
-                [
-                    'error'   => $error,
-                    'mensaje' => 'Ocurrio un error interno'
-                ], 500
-            );
+            return response()->json([
+                'error'   => $error->getMessage(),
+                'mensaje' => 'Ocurrio un error interno'
+            ], 500);
         }
     }
 
@@ -42,46 +40,55 @@ class EmpresasController extends Controller
             Log::alert('Error al obtener información de las Empresas');
             Log::alert($error);
 
-            return response()->json(
-                [
-                    'error'   => $error,
-                    'mensaje' => 'Ocurrio un error interno'
-                ], 500
-            );
+            return response()->json([
+                'error'   => $error->getMessage(),
+                'mensaje' => 'Ocurrio un error interno'
+            ], 500);
         }
     } 
 
-    public function obtenerDetalleEmpresa(int $pkEmpresa) {
+    public function obtenerDetalleEmpresas($pkEmpresa) {
         try {
-            return $this->empresasService->obtenerDetalleEmpresa($pkEmpresa);
+            return $this->empresasService->obtenerDetalleEmpresa((int) $pkEmpresa);
         } catch (\Throwable $error) {
             Log::alert('*********************************************');
-            Log::alert('Error al obtener información de detalle del Empleado');
+            Log::alert('Error al obtener información de detalle de la Empresa');
             Log::alert($error);
 
-            return response()->json(
-                [
-                    'error'   => $error,
-                    'mensaje' => 'Ocurrio un mensaje interno'
-                ]
-            );
+            return response()->json([
+                'error'   => $error->getMessage(),
+                'mensaje' => 'Ocurrio un error interno'
+            ], 500);
         }
     }
 
-    public function actualizarEmpresa(Request $request) {
+    public function actualizarEmpresas(Request $request) {
         try {
             return $this->empresasService->actualizarEmpresa($request->all());
-        } catch(\Throwable $error) {
+        } catch (\Throwable $error) {
             Log::alert('*********************************************');
-            Log::alert('Error al obtener información de detalle del Empleado');
+            Log::alert('Error al actualizar la Empresa');
             Log::alert($error);
 
-            return response()->json(
-                [
-                    'error'   => $error,
-                    'mensaje' => 'Ocurrio un error interno'
-                ]
-            );
+            return response()->json([
+                'error'   => $error->getMessage(),
+                'mensaje' => 'Ocurrio un error interno'
+            ], 500);
+        }
+    }
+
+    public function cambiarStatusEmpresas(int $pkEmpresas) {
+        try {
+            return $this->empresasService->cambiarStatusEmpresas($pkEmpresas);
+        } catch (\Throwable $error) {
+            Log::alert('*********************************************');
+            Log::alert('Error al cambiar Status de la Empresa');
+            Log::alert($error);
+
+            return response()->json([
+                'error'   => $error,
+                'mensaje' => 'Ocurrió un error interno '
+            ]);
         }
     }
 }

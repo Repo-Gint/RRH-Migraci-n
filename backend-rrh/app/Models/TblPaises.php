@@ -10,11 +10,11 @@ class TblPaises extends Model
     use HasFactory;
 
     public    $timestamps = false;
-    public    $primaryKey = 'id_countries';
+    protected $primaryKey = 'id_country';
     protected $table      = 'tbl_countries';
 
     protected $fillable = [
-        'id_countries',
+        'id_country',
         'country',
         'flag',
         'slug'

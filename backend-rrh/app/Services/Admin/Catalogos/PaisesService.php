@@ -57,4 +57,15 @@ class PaisesService
             ]
         );
     }
+
+    public function cambiarStatusPaises(int $pkPaises) {
+        $status = $this->paisesRepository->cambiarStatusPaises($pkPaises);
+
+        return response()->json(
+            [
+                'title'   => ($status ? 'Activar' : 'Inactivar').' pais',
+                'mensaje' => 'Se '.($status ? 'activo' : 'inactivo').' el pais con éxito'
+            ]
+        );
+    }
 }

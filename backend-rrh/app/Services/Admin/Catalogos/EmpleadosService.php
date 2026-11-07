@@ -39,10 +39,14 @@ class EmpleadosService
         
         $password = 'gim' . $inicialNombre . $inicialPaterno . $inicialMaterno . $fechaCorta;
 
+        // Recuperar los archivos si vienen en la petición, si no, arreglo vacío
+        $files = $empleado['files'] ?? [];
+
         // Guardamos el empleado y el usuario en las 3 BD
         foreach ($this->conexiones as $conn) {
             
-            $idEmpleado = $this->empleadosRepository->registrarEmpleado($empleado, $conn);
+            // CORRECCIÓN: Se envía el 3er parámetro ($files) para evitar el P1005
+            $idEmpleado = $this->empleadosRepository->registrarEmpleado($empleado, $conn, $files);
             
             $this->usuariosRepository->crearUsuarioIntranet([
                 'id_employee'  => $idEmpleado, 

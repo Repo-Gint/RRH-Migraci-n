@@ -22,33 +22,49 @@ class PaisesRepository
         $registro->active = 1;
         $registro->save();
 
-        return $registro->id_countries;
+        return $registro->id_country;
     }
 
     public function obtenerListaPaises() {
-        return TblPaises::select(
-            'id_countries',
+        $paises = TblPaises::select(
+            'id_country',
             'country',
             'slug',
             'flag',
             'active'
         )->get();
+
+
+        $paises->map(function($pais) {
+            if ($pais->flag) {
+                $pais->flag = asset('storage/' . $pais->flag);
+            }
+            return $pais;
+        });
+
+        return $paises;
     }
 
     public function obtenerDetallePaises(int $pkPaises) {
-    return TblPaises::select(
-        'id_countries',
-        'country',
-        'slug',
-        'flag',
-        'active'
-    )
-    ->where([
-        ['id_countries', $pkPaises],
-        ['active', 1]
-    ])
-    ->first(); // <-- Cambiado de get() a first() para traer un objeto directo
-} 
+        $pais = TblPaises::select(
+            'id_country',
+            'country',
+            'slug',
+            'flag',
+            'active'
+        )
+        ->where([
+            ['id_country', $pkPaises],
+            ['active', 1]
+        ])
+        ->first(); 
+
+        if ($pais && $pais->flag) {
+            $pais->flag = asset('storage/' . $pais->flag);
+        }
+
+        return $pais;
+    } 
 
     public function actualizarPaises(int $id, array $paises, $file = null) {
         $actualizar = TblPaises::findOrFail($id);
@@ -69,5 +85,13 @@ class PaisesRepository
         $actualizar->save();
 
         return $actualizar;
+    }
+
+    public function cambiarStatusPaises(int $pkPaises) {
+        $paises         = TblPaises::findOrFail($pkPaises);
+        $paises->active = $paises->active ? 0 : 1;
+        $paises->save();
+
+        return $paises->active;
     }
 }

@@ -15,12 +15,12 @@ class EmpresasService
     }
 
     public function registrarEmpresa(array $empresa) {
-        $pkEmpresa = $this->empresasRepository->registrarEmpresas($empresa);
+        $pkEmpresas = $this->empresasRepository->registrarEmpresas($empresa);
 
         return response()->json(
             [
-                'pkEmpleado' => $pkEmpresa,
-                'mensaje'    => 'Se registro la empresa con éxito',
+                'pkEmpresas' => $pkEmpresas,
+                'mensaje'    => 'Se registro correctamente la empresa',
                 'title'      => 'Registro exitoso'
             ]
         );
@@ -43,18 +43,28 @@ class EmpresasService
         return response()->json(
             [
                 'empresas' => $empresas,
-                'mensaje'  => 'Se obtuvo el detalle del empleado con éxito'
+                'mensaje'  => 'Se obtuvo el detalle de la empresa con éxito'
             ]
         );
     }
 
-    public function actualizarEmpresa(array $empresa) {
-        $this->empresasRepository->actualizarEmpresa($empresa['pkEmpresa'], $empresa['empresa']);
+    public function actualizarEmpresa(array $empresas) {
+
+        $this->empresasRepository->actualizarEmpresa($empresas['pkEmpresas'], $empresas['empresas']);
+
+        return response()->json([
+            'title'   => 'Actualización exitosa',
+            'mensaje' => 'Se actualizó correctamente la empresa'
+        ]);
+    }
+
+    public function cambiarStatusEmpresas(int $pkEmpresas) {
+        $status = $this->empresasRepository->cambiarStatusEmpresas($pkEmpresas);
 
         return response()->json(
             [
-                'title'   => 'Actualización exitosa',
-                'mensaje' => 'Se actualizo correctamente'
+                'title'   => ($status ? 'Activar' : 'Inactivar').' empresa',
+                'mensaje' => 'Se '.($status ? 'activo' : 'inactivo').' la empresa con éxito'
             ]
         );
     }

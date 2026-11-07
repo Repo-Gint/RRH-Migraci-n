@@ -40,18 +40,41 @@
 
                 <div class="sidebar__item item--heading">Operación</div>
                 
-                <a class="sidebar__link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseOrdenes">
-                    <i class="bi bi-coin icon"></i>
-                    <span class="text">Ordenes</span>
-                    <i class="bi bi-caret-down ms-auto arrow"></i>
+                <a class="sidebar__link collapsed" data-bs-toggle="collapse" data-bs-target="#collapsePais" style="cursor: pointer;">
+                    <i class="bi bi-globe-americas icon"></i>
+                    <span class="text">Paises</span>
+                        <i class="bi bi-caret-down ms-auto arrow"></i>
                 </a>
-                
-                <div class="collapse dropdown-container" id="collapseOrdenes">
-                    <nav class="nav flex-column">
-                        <a class="sub-link" (click)="abrirModalRegistrarOrden()">Registrar Orden</a>
-                        <a class="sub-link" routerLink="consulta-ordenes">Consultar Ordenes</a>
-                    </nav>
-                </div>
+
+            <div class="collapse dropdown-container" id="collapsePais">
+                <nav class="nav flex-column">
+                    <a class="sub-link" (click)="abrirModalRegistrarPais()" style="cursor: pointer;">
+                        <i class="bi bi-plus-circle me-2"></i> Registrar Pais
+                    </a>
+                    <a class="sub-link" routerLink="consulta-pais" style="cursor: pointer;">
+                        <i class="bi bi-list-ul me-2"></i> Consultar Pais
+                    </a>
+                </nav>
+            </div>
+
+
+                <a class="sidebar__link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseEmpresas" style="cursor: pointer;">
+                <i class="bi bi-buildings"></i>
+                    <span class="text">Empresas</span>
+                        <i class="bi bi-caret-down ms-auto arrow"></i>
+                </a>
+
+            <!-- Contenedor del acordeón con id="collapseEmpresas" -->
+            <div class="collapse dropdown-container" id="collapseEmpresas">
+                <nav class="nav flex-column">
+                    <a class="sub-link" (click)="abrirModalRegistrarEmpresas()" style="cursor: pointer;">
+                        <i class="bi bi-building-add"></i> Registrar Empresas
+                    </a>
+                    <a class="sub-link" routerLink="consulta-empresas" style="cursor: pointer;">
+                        <i class="bi bi-building-fill-check"></i> Consultar Empresas
+                    </a>
+                </nav>
+            </div>
 
                 <!-- SECCIÓN INFERIOR: Perfil y Logout -->
     <div class="sidebar__footer mt-auto pb-4">

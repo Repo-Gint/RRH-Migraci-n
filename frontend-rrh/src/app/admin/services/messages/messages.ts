@@ -31,7 +31,7 @@ export class MessagesService {
 			icon: tipo,
 			html: mensaje,
 			confirmButtonText: 'Continuar',
-			buttonStyling: false, 
+			buttonsStyling: false, 
 			customClass: {
 				confirmButton: 'btn btn-sm btn-primary',
 				popup: width != null ? 'popup-custom': ''

@@ -1,0 +1,234 @@
+<div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+    <!-- Encabezado -->
+    <div class="modal-header border-0 pb-0 pt-4 px-4 position-relative">
+        <div class="w-100">
+            <div class="d-flex align-items-center justify-content-between">
+                <h4 class="fw-bold text-dark mb-1 fs-5">
+                    {{pkEmpresas == null ? 'Registrar' : 'Actualizar'}} Empresa
+                </h4>
+                <button type="button" class="btn-close text-muted shadow-none" aria-label="Close" (click)="cerrarModal()"></button>
+            </div>
+            
+            <nav class="d-flex align-items-center gap-2">
+                <ol class="breadcrumb mb-0 fs-7">
+                    <li class="breadcrumb-item text-muted">Empresas</li>
+                    <li class="breadcrumb-item active fw-medium text-secondary">
+                        {{pkEmpresas == null ? 'Registrar' : 'Actualizar'}} Empresa
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Cuerpo del Formulario -->
+    <div class="modal-body p-4">
+        <div class="card border border-light-subtle rounded-4 bg-light-subtle shadow-none">
+            <div class="card-body p-4">
+                <form [formGroup]="formEmpresas" class="row g-4" autocomplete="off">
+                    
+                    <!-- Nombre (name) -->
+                    <div class="col-lg-6">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <label for="name" class="form-label fw-bold text-dark fs-7 mb-0">Nombre de la Empresa:</label>
+                            <span class="badge bg-primary-subtle text-primary fs-xxs fw-bold px-2 py-1 rounded">REQUERIDO</span>
+                        </div>
+                        <div class="input-group input-group-custom" [class.is-invalid-group]="campoEsInvalido('name')" [class.is-valid-group]="campoEsValido('name')">
+                            <span class="input-group-text bg-white border-end-0 text-muted ps-3">
+                                <i class="bi bi-building fs-6"></i>
+                            </span>
+                            <input id="name" type="text" class="form-control border-start-0 ps-2 shadow-none" placeholder="Ej. Tech Solutions S.A." formControlName="name">
+                            
+                            <span class="input-group-text bg-white border-start-0 pe-3" *ngIf="campoEsInvalido('name')">
+                                <i class="bi bi-exclamation-circle-fill text-danger fs-6 animate-pulse"></i>
+                            </span>
+                            <span class="input-group-text bg-white border-start-0 pe-3" *ngIf="campoEsValido('name')">
+                                <i class="bi bi-check-circle-fill text-success fs-6 animate-check-pop"></i>
+                            </span>
+                        </div>
+                        <div *ngIf="campoEsInvalido('name')" class="text-danger fs-xxs mt-1 fw-semibold d-flex align-items-center gap-1 animate-fade-in">
+                            <i class="bi bi-x-circle-fill"></i><span>{{ obtenerMensajeError('name') }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Abreviatura (acronym) -->
+                    <div class="col-lg-6">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <label for="acronym" class="form-label fw-bold text-dark fs-7 mb-0">Abreviatura:</label>
+                            <span class="badge bg-primary-subtle text-primary fs-xxs fw-bold px-2 py-1 rounded">REQUERIDO</span>
+                        </div>
+                        <div class="input-group input-group-custom" [class.is-invalid-group]="campoEsInvalido('acronym')" [class.is-valid-group]="campoEsValido('acronym')">
+                            <span class="input-group-text bg-white border-end-0 text-muted ps-3">
+                                <i class="bi bi-tag fs-6"></i>
+                            </span>
+                            <input id="acronym" type="text" class="form-control border-start-0 ps-2 shadow-none fw-semibold" placeholder="Ej. MX" formControlName="acronym">
+                            
+                            <span class="input-group-text bg-white border-start-0 pe-3" *ngIf="campoEsInvalido('acronym')">
+                                <i class="bi bi-exclamation-circle-fill text-danger fs-6 animate-pulse"></i>
+                            </span>
+                            <span class="input-group-text bg-white border-start-0 pe-3" *ngIf="campoEsValido('acronym')">
+                                <i class="bi bi-check-circle-fill text-success fs-6 animate-check-pop"></i>
+                            </span>
+                        </div>
+                        <div *ngIf="campoEsInvalido('acronym')" class="text-danger fs-xxs mt-1 fw-semibold d-flex align-items-center gap-1 animate-fade-in">
+                            <i class="bi bi-x-circle-fill"></i><span>{{ obtenerMensajeError('acronym') }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Dirección (address) -->
+                    <div class="col-lg-6">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <label for="address" class="form-label fw-bold text-dark fs-7 mb-0">Dirección:</label>
+                            <span class="badge bg-primary-subtle text-primary fs-xxs fw-bold px-2 py-1 rounded">REQUERIDO</span>
+                        </div>
+                        <div class="input-group input-group-custom" [class.is-invalid-group]="campoEsInvalido('address')" [class.is-valid-group]="campoEsValido('address')">
+                            <span class="input-group-text bg-white border-end-0 text-muted ps-3">
+                                <i class="bi bi-geo-alt fs-6"></i>
+                            </span>
+                            <input id="address" type="text" class="form-control border-start-0 ps-2 shadow-none" placeholder="Calle, Número, Colonia" formControlName="address">
+                            
+                            <span class="input-group-text bg-white border-start-0 pe-3" *ngIf="campoEsInvalido('address')">
+                                <i class="bi bi-exclamation-circle-fill text-danger fs-6 animate-pulse"></i>
+                            </span>
+                            <span class="input-group-text bg-white border-start-0 pe-3" *ngIf="campoEsValido('address')">
+                                <i class="bi bi-check-circle-fill text-success fs-6 animate-check-pop"></i>
+                            </span>
+                        </div>
+                        <div *ngIf="campoEsInvalido('address')" class="text-danger fs-xxs mt-1 fw-semibold d-flex align-items-center gap-1 animate-fade-in">
+                            <i class="bi bi-x-circle-fill"></i><span>{{ obtenerMensajeError('address') }}</span>
+                        </div>
+                    </div>
+
+                      <!-- Colonia (towns) -->
+                    <div class="col-lg-6">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <label for="towns" class="form-label fw-bold text-dark fs-7 mb-0">Colonia</label>
+                            <span class="badge bg-primary-subtle text-primary fs-xxs fw-bold px-2 py-1 rounded">REQUERIDO</span>
+                        </div>
+                        <div class="input-group input-group-custom" [class.is-invalid-group]="campoEsInvalido('towns')" [class.is-valid-group]="campoEsValido('towns')">
+                            <span class="input-group-text bg-white border-end-0 text-muted ps-3">
+                                <i class="bi bi-link-45deg fs-6"></i>
+                            </span>
+                            <input id="towns" type="text" class="form-control border-start-0 ps-2 shadow-none" placeholder="colonia" formControlName="towns">
+                            
+                            <span class="input-group-text bg-white border-start-0 pe-3" *ngIf="campoEsInvalido('towns')">
+                                <i class="bi bi-exclamation-circle-fill text-danger fs-6 animate-pulse"></i>
+                            </span>
+                            <span class="input-group-text bg-white border-start-0 pe-3" *ngIf="campoEsValido('towns')">
+                                <i class="bi bi-check-circle-fill text-success fs-6 animate-check-pop"></i>
+                            </span>
+                        </div>
+                        <div *ngIf="campoEsInvalido('towns')" class="text-danger fs-xxs mt-1 fw-semibold d-flex align-items-center gap-1 animate-fade-in">
+                            <i class="bi bi-x-circle-fill"></i><span>{{ obtenerMensajeError('towns') }}</span>
+                        </div>
+                    </div>
+
+                     <!-- Municipio (municipality) -->
+                    <div class="col-lg-6">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <label for="municipality" class="form-label fw-bold text-dark fs-7 mb-0">Municipio:</label>
+                            <span class="badge bg-primary-subtle text-primary fs-xxs fw-bold px-2 py-1 rounded">REQUERIDO</span>
+                        </div>
+                        <div class="input-group input-group-custom" [class.is-invalid-group]="campoEsInvalido('municipality')" [class.is-valid-group]="campoEsValido('municipality')">
+                            <span class="input-group-text bg-white border-end-0 text-muted ps-3">
+                                <i class="bi bi-pin-map fs-6"></i>
+                            </span>
+                            <input id="municipality" type="text" class="form-control border-start-0 ps-2 shadow-none" placeholder="Ej. Zapopan" formControlName="municipality">
+                            
+                            <span class="input-group-text bg-white border-start-0 pe-3" *ngIf="campoEsInvalido('municipality')">
+                                <i class="bi bi-exclamation-circle-fill text-danger fs-6 animate-pulse"></i>
+                            </span>
+                            <span class="input-group-text bg-white border-start-0 pe-3" *ngIf="campoEsValido('municipality')">
+                                <i class="bi bi-check-circle-fill text-success fs-6 animate-check-pop"></i>
+                            </span>
+                        </div>
+                        <div *ngIf="campoEsInvalido('municipality')" class="text-danger fs-xxs mt-1 fw-semibold d-flex align-items-center gap-1 animate-fade-in">
+                            <i class="bi bi-x-circle-fill"></i><span>{{ obtenerMensajeError('municipality') }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Estado (state) -->
+                    <div class="col-lg-6">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <label for="state" class="form-label fw-bold text-dark fs-7 mb-0">Estado:</label>
+                            <span class="badge bg-primary-subtle text-primary fs-xxs fw-bold px-2 py-1 rounded">REQUERIDO</span>
+                        </div>
+                        <div class="input-group input-group-custom" [class.is-invalid-group]="campoEsInvalido('state')" [class.is-valid-group]="campoEsValido('state')">
+                            <span class="input-group-text bg-white border-end-0 text-muted ps-3">
+                                <i class="bi bi-map fs-6"></i>
+                            </span>
+                            <input id="state" type="text" class="form-control border-start-0 ps-2 shadow-none" placeholder="Ej. Jalisco" formControlName="state">
+                            
+                            <span class="input-group-text bg-white border-start-0 pe-3" *ngIf="campoEsInvalido('state')">
+                                <i class="bi bi-exclamation-circle-fill text-danger fs-6 animate-pulse"></i>
+                            </span>
+                            <span class="input-group-text bg-white border-start-0 pe-3" *ngIf="campoEsValido('state')">
+                                <i class="bi bi-check-circle-fill text-success fs-6 animate-check-pop"></i>
+                            </span>
+                        </div>
+                        <div *ngIf="campoEsInvalido('state')" class="text-danger fs-xxs mt-1 fw-semibold d-flex align-items-center gap-1 animate-fade-in">
+                            <i class="bi bi-x-circle-fill"></i><span>{{ obtenerMensajeError('state') }}</span>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label class="form-label fw-bold text-dark small">Pais: <span class="text-danger">*</span></label>
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-cpu"></i></span>
+                            <select class="form-select form-select-sm border-start-0 shadow-none" formControlName="id_country">
+                                <option value="" disabled selected style="display:none;">Selecciona una opción</option>
+                                <option *ngFor="let paises of listaPaises" [value]="paises.id_country">
+                                    {{ paises.country }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Teléfono (phone) -->
+                    <div class="col-lg-6">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <label for="phone" class="form-label fw-bold text-dark fs-7 mb-0">Teléfono:</label>
+                            <span class="badge bg-primary-subtle text-primary fs-xxs fw-bold px-2 py-1 rounded">REQUERIDO</span>
+                        </div>
+                        <div class="input-group input-group-custom" [class.is-invalid-group]="campoEsInvalido('phone')" [class.is-valid-group]="campoEsValido('phone')">
+                            <span class="input-group-text bg-white border-end-0 text-muted ps-3">
+                                <i class="bi bi-telephone fs-6"></i>
+                            </span>
+                            <input id="phone" type="text" class="form-control border-start-0 ps-2 shadow-none" placeholder="10 dígitos" formControlName="phone">
+                            
+                            <span class="input-group-text bg-white border-start-0 pe-3" *ngIf="campoEsInvalido('phone')">
+                                <i class="bi bi-exclamation-circle-fill text-danger fs-6 animate-pulse"></i>
+                            </span>
+                            <span class="input-group-text bg-white border-start-0 pe-3" *ngIf="campoEsValido('phone')">
+                                <i class="bi bi-check-circle-fill text-success fs-6 animate-check-pop"></i>
+                            </span>
+                        </div>
+                        <div *ngIf="campoEsInvalido('phone')" class="text-danger fs-xxs mt-1 fw-semibold d-flex align-items-center gap-1 animate-fade-in">
+                            <i class="bi bi-x-circle-fill"></i><span>{{ obtenerMensajeError('phone') }}</span>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pie del Modal -->
+    <div class="modal-footer border-top-0 pt-0 pb-4 px-4 d-flex justify-content-end gap-2">
+        <button class="btn btn-animated btn-cancel rounded-pill px-4 py-2 text-secondary fw-semibold d-inline-flex align-items-center gap-2" 
+                (click)="cerrarModal()">
+            <i class="bi bi-x-circle fs-6"></i>
+            <span>{{cambiosForm || pkEmpresas != null ? 'Cancelar' : 'Cerrar'}}</span>
+        </button>
+
+        <button *ngIf="pkEmpresas == null" class="btn btn-animated btn-primary-custom rounded-pill px-4 py-2 fw-semibold d-inline-flex align-items-center gap-2 shadow-sm" (click)="registrarEmpresas()">
+            <i class="bi bi-check-circle-fill fs-6"></i>
+            <span>Registrar</span>
+        </button> 
+
+        <button *ngIf="pkEmpresas != null" class="btn btn-animated btn-warning-custom rounded-pill px-4 py-2 fw-semibold d-inline-flex align-items-center gap-2 shadow-sm" 
+                (click)="actualizarEmpresas()">
+            <i class="bi bi-arrow-repeat fs-6"></i>
+            <span>Actualizar</span>
+        </button>
+    </div>
+</div>

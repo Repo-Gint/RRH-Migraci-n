@@ -1,0 +1,125 @@
+/* Tipografía y Espaciados Personalizados */
+.fs-7 { 
+  font-size: 0.875rem; 
+}
+.fs-xxs { 
+  font-size: 0.7rem; 
+  letter-spacing: 0.5px;
+}
+
+/* Estilos de los Input Groups */
+.input-group-custom .input-group-text,
+.input-group-custom .form-control {
+  border: 1px solid #dee2e6;
+  background-color: #ffffff;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Estado Focus */
+.input-group-custom:focus-within .input-group-text,
+.input-group-custom:focus-within .form-control {
+  border-color: #86b7fe;
+  box-shadow: none;
+}
+.input-group-custom:focus-within .input-group-text i {
+  color: #0d6efd;
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
+
+/* Estados de Validación (Angular) */
+.is-invalid-group .input-group-text,
+.is-invalid-group .form-control {
+  border-color: #dc3545 !important;
+  background-color: #fffafb;
+}
+.is-invalid-group:focus-within .input-group-text,
+.is-invalid-group:focus-within .form-control {
+  box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+}
+
+.is-valid-group .input-group-text,
+.is-valid-group .form-control {
+  border-color: #198754 !important;
+  background-color: #fafffb;
+}
+.is-valid-group:focus-within .input-group-text,
+.is-valid-group:focus-within .form-control {
+  box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25) !important;
+}
+
+/* Botones Personalizados y Animados */
+.btn-animated {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+}
+.btn-animated:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+.btn-animated:active {
+  transform: translateY(0);
+  box-shadow: none !important;
+}
+
+.btn-cancel {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+}
+.btn-cancel:hover {
+  background-color: #e2e6ea;
+}
+
+.btn-primary-custom {
+  background-color: #0d6efd;
+  color: #ffffff;
+  border: none;
+}
+.btn-primary-custom:hover {
+  background-color: #0b5ed7;
+  color: #ffffff;
+}
+
+.btn-warning-custom {
+  background-color: #ffc107;
+  color: #212529;
+  border: none;
+}
+.btn-warning-custom:hover {
+  background-color: #ffca2c;
+}
+
+/* Animaciones de Iconos y Textos */
+.animate-pulse {
+  animation: pulse 2s infinite;
+}
+
+.animate-check-pop {
+  animation: checkPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Keyframes */
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.15); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes checkPop {
+  0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(-4px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
